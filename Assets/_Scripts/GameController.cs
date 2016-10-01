@@ -9,12 +9,17 @@ public class GameController : MonoBehaviour {
 
 	private int _scoreValue;
 	private int _livesValue =5;
+	private AudioSource _gameOverSound;
 
 	//Public instance varibles (for testing)
 	public int cloudNumber = 3;
-	public  GameObject cloud;
+	public GameObject cloud;
+	public GameObject plane;
+	public GameObject island;
 	public Text LivesLbl;
 	public Text ScoreLbl;
+	public Text GameOverLbl;
+	public Text FinalScoreLbl;
 
 
 
@@ -35,12 +40,20 @@ public class GameController : MonoBehaviour {
 		}
 		set {
 			this._livesValue = value;
-			this.LivesLbl.text = "Lives: " + this._livesValue;
+			if (this._livesValue <= 0) {
+				//endgame
+				this._endGame ();
+			} else {
+				this.LivesLbl.text = "Lives: " + this._livesValue;
+			}
 		}
 	}
 
 	// Use this for initialization
 	void Start () {
+		//this._gameOverSound = this.GetComponent<AudioSource>();
+		this.GameOverLbl.enabled = false;
+		this.FinalScoreLbl.enabled = false;
 
 		//this.Clouds = new List<CloudController> ();
 
@@ -56,4 +69,13 @@ public class GameController : MonoBehaviour {
 		
 	
 	}
+	public void _endGame() {
+		//this._gameOverSound.Play();
+		this.plane.SetActive (false);
+		this.island.SetActive (false);
+		this.GameOverLbl.enabled = true;
+		this.FinalScoreLbl.text = "Final Score:" + ScoreValue;
+		this.FinalScoreLbl.enabled = true;
+
+}
 }
